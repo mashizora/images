@@ -3,7 +3,7 @@ FROM ubuntu:noble
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y upgrade
 
-RUN apt-get -y install --no-install-recommands \
+RUN apt-get -y install --no-install-recommends \
     ca-certificates \
     software-properties-common \
     build-essential \
