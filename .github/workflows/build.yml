@@ -9,8 +9,8 @@ jobs:
     name: Build Ubuntu
     runs-on: ubuntu-latest
     permissions:
-      packages: write
       contents: read
+      packages: write
     steps:
       - name: Login to registry
         uses: docker/login-action@v3
