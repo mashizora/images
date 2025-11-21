@@ -14,8 +14,5 @@ ADD scripts/* /imagebuilder/
 RUN bash /imagebuilder/install-git.sh
 RUN bash /imagebuilder/install-node.sh
 RUN bash /imagebuilder/install-p4.sh
-RUN bash /imagebuilder/install-python.sh
-RUN bash /imagebuilder/install-rust.sh
+# RUN bash /imagebuilder/install-rust.sh
 RUN rm -rf /imagebuilder
-
-ENTRYPOINT ["/bin/bash", "--login"]
