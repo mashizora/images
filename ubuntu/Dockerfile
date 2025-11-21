@@ -1,13 +1,14 @@
 FROM ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get -y upgrade
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
+RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install --no-install-recommends \
     ca-certificates \
-    software-properties-common \
     build-essential \
-    curl wget unzip
+    software-properties-common \
+    curl wget unzip xz-utils jq
 
 ADD scripts/* /imagebuilder/
 RUN bash /imagebuilder/install-git.sh
@@ -16,3 +17,5 @@ RUN bash /imagebuilder/install-p4.sh
 RUN bash /imagebuilder/install-python.sh
 RUN bash /imagebuilder/install-rust.sh
 RUN rm -rf /imagebuilder
+
+ENTRYPOINT ["/bin/bash", "--login"]
