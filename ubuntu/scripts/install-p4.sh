@@ -9,7 +9,7 @@ fi
 RELNOTES_URL="https://help.perforce.com/helix-core/release-notes/current/relnotes.txt"
 VERSION=$(curl -s "$RELNOTES_URL" | grep -oP -m1 "(?<=Version )\d{4}\.\d")
 if [[ -z "$VERSION" ]]; then
-    echo "Error: Failed to fetch current perforce version." >&2
+    echo "Error: Failed to get perforce version." >&2
     exit 1
 fi
 

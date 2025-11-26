@@ -1,4 +1,4 @@
 #!/bin/bash
 
-apt-get -y update
-apt-get -y install python3 python3-pip python-is-python3
+curl -sL https://astral.sh/uv/install.sh | sh
+"$HOME/.local/bin/uv" python install --default
