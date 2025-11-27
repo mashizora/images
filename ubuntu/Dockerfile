@@ -1,7 +1,7 @@
 FROM ubuntu:noble
 
 ENV DEBIAN_FRONTEND=noninteractive
-SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
+SHELL ["/bin/bash", "--login", "-euo", "pipefail", "-c"]
 
 RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install --no-install-recommends \
@@ -16,5 +16,3 @@ RUN bash /imagebuilder/install-node.sh
 RUN bash /imagebuilder/install-p4.sh
 RUN bash /imagebuilder/install-python.sh
 RUN rm -rf /imagebuilder
-
-ENTRYPOINT ["/bin/bash", "--login", "-c"]
