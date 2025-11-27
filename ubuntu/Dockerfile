@@ -17,4 +17,4 @@ RUN bash /imagebuilder/install-p4.sh
 RUN bash /imagebuilder/install-python.sh
 RUN rm -rf /imagebuilder
 
-ENTRYPOINT ["/bin/bash", "--login"]
+ENTRYPOINT ["/bin/bash", "--login", "-c"]
