@@ -19,8 +19,7 @@ jobs:
       - name: Login to ghcr.io
         run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Build image
-        run: buildah build --format=docker --tag ghcr.io/mashizora/ubuntu:latest ubuntu
-
-      - name: Push image
-        run: buildah push ghcr.io/mashizora/ubuntu:latest
+      - name: Build and push image
+        run: |
+          buildah build --tag ghcr.io/mashizora/ubuntu:latest ubuntu
+          buildah push ghcr.io/mashizora/ubuntu:latest

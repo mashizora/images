@@ -1,0 +1,28 @@
+FROM ubuntu:noble
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get -y upgrade
+# RUN apt-get -y install --no-install-recommends \
+#   ca-certificates \
+#   build-essential \
+#   software-properties-common \
+#   curl wget jq unzip xz-utils
+
+RUN apt-get -y install --no-install-recommends \
+  ca-certificates \
+  software-properties-common \
+  curl wget jq unzip xz-utils
+
+RUN add-apt-repository ppa:git-core/ppa && \
+  apt-get update && apt-get -y install git && \
+  git config --system --add safe.directory "*" && \
+  curl -s "https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh" | bash && \
+  apt-get -y install git-lfs
+
+ENV PATH "/opt/node/bin:$PATH"
+RUN VERSION=$(curl -s "https://nodejs.org/dist/index.json" | jq -r "map(select(.lts))[0].version") && \
+  curl -s "https://nodejs.org/dist/$VERSION/node-$VERSION-linux-x64.tar.xz" | tar -xJ --one-top-level=/opt/node --strip-components=1
+
+RUN VERSION=$(curl -s "https://help.perforce.com/helix-core/release-notes/current/relnotes.txt" | grep -oP -m1 "(?<=Version )\d{4}\.\d") && \
+  curl -s "https://filehost.perforce.com/perforce/r${VERSION:2}/bin.linux26x86_64/p4" -o /usr/local/bin/p4 && \
+  chmod 755 /usr/local/bin/p4
