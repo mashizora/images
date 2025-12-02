@@ -1,6 +1,9 @@
 #!/bin/bash
 
 ctr=$(buildah from ubuntu:noble)
+buildah config --env DEBIAN_FRONTEND=noninteractive $ctr
+
+
 IMAGE_PATH=$(buildah run $ctr -- printenv PATH)
 
 IMAGE_PATH="/opt/node/bin:$IMAGE_PATH"
