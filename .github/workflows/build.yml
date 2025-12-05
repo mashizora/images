@@ -21,5 +21,5 @@ jobs:
 
       - name: Build and push image
         run: |
-          buildah build --tag ghcr.io/mashizora/ubuntu:latest ubuntu
+          buildah build --omit-history --tag ghcr.io/mashizora/ubuntu:latest ubuntu
           buildah push ghcr.io/mashizora/ubuntu:latest
