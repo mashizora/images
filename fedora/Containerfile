@@ -1,0 +1,10 @@
+FROM fedora:latest
+
+RUN dnf -y upgrade && dnf -y install \
+  git git-lfs ca-certificates curl jq unzip xz zstd nodejs python golang
+
+RUN VERSION=$(curl -s "https://help.perforce.com/helix-core/release-notes/current/relnotes.txt" | grep -oP -m1 "(?<=Version 20)\d\d\.\d") \
+  && curl -sL "https://filehost.perforce.com/perforce/r$VERSION/bin.linux26x86_64/p4" -o /usr/local/bin/p4 \
+  && chmod 755 /usr/local/bin/p4
+
+RUN dnf clean all && rm -rf /tmp/* /var/cache/dnf /var/log/*
