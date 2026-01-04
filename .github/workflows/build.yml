@@ -23,3 +23,39 @@ jobs:
         run: |
           buildah build --omit-history --tag ghcr.io/mashizora/ubuntu:latest ubuntu
           buildah push ghcr.io/mashizora/ubuntu:latest
+
+  fedora:
+    name: Build Fedora
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Login to ghcr.io
+        run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Build and push image
+        run: |
+          buildah build --omit-history --tag ghcr.io/mashizora/fedora:latest fedora-rawhide
+          buildah push ghcr.io/mashizora/fedora:latest
+
+  opensuse:
+    name: Build openSUSE
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Login to ghcr.io
+        run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Build and push image
+        run: |
+          buildah build --omit-history --tag ghcr.io/mashizora/opensuse:latest opensuse
+          buildah push ghcr.io/mashizora/opensuse:latest

@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM fedora:rawhide
 
 RUN dnf -y upgrade && dnf -y --setopt=install_weak_deps=false install \
   git git-lfs ca-certificates curl jq unzip xz zstd nodejs nodejs-npm python golang
