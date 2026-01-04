@@ -1,3 +1,3 @@
 #!/bin/bash
 
-curl -s https://sh.rustup.rs | sh -s -- -y --profile=minimal
+VERSION=$(curl -s https://static.rust-lang.org/dist/channel-rust-stable.toml | tomlq -r '.pkg.rust.version' | grep -oP '\d+\.\d+\.\d+')
