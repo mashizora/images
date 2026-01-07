@@ -1,7 +1,7 @@
-FROM fedora:latest
+FROM fedora:rawhide
 
 RUN dnf -y upgrade && dnf -y --setopt=install_weak_deps=false install \
-  git git-lfs ca-certificates curl jq unzip xz zstd nodejs nodejs-npm python golang
+  git git-lfs cmake clang python python-pip nodejs nodejs-npm golang rust
 
 RUN VERSION=$(curl -s "https://help.perforce.com/helix-core/release-notes/current/relnotes.txt" | grep -oP -m1 "(?<=Version 20)\d\d\.\d") \
   && curl -sL "https://filehost.perforce.com/perforce/r$VERSION/bin.linux26x86_64/p4" -o /usr/local/bin/p4 \
