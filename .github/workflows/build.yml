@@ -23,3 +23,6 @@ jobs:
         run: |
           buildah build --omit-history --tag ghcr.io/mashizora/fedora:latest fedora
           buildah push ghcr.io/mashizora/fedora:latest
+
+      - name: Clean old versions
+        run: gh api /user/packages/container/fedora/versions | jq '.[]|select(.metadata.container.tags|contains(["latest"])|not)|.id' | xargs -I{} gh api -X DELETE /user/packages/container/fedora/versions/{}
