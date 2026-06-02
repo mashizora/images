@@ -1,0 +1,10 @@
+FROM alpine:latest
+
+RUN apk add --no-cache gcompat curl grep \
+  git git-lfs python nodejs
+
+RUN VERSION=$(curl -s "https://help.perforce.com/helix-core/release-notes/current/relnotes.txt" | grep -oP -m1 "(?<=Version 20)\d\d\.\d") \
+  && curl -sL "https://filehost.perforce.com/perforce/r$VERSION/bin.linux26x86_64/p4" -o /usr/local/bin/p4 \
+  && chmod 755 /usr/local/bin/p4
+
+RUN rm -rf /tmp/* /var/log/*

@@ -8,12 +8,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  fedora:
-    name: Build Fedora
+  build:
+    name: Build ${{ matrix.image }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    strategy:
+      matrix:
+        image: [alpine, fedora]
+      fail-fast: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -23,13 +27,13 @@ jobs:
 
       - name: Build and push image
         run: |
-          buildah build --omit-history --tag ghcr.io/mashizora/fedora:latest fedora
-          buildah push ghcr.io/mashizora/fedora:latest
+          buildah build --squash --omit-history --tag ghcr.io/mashizora/${{ matrix.image }}:latest ${{ matrix.image }}
+          buildah push ghcr.io/mashizora/${{ matrix.image }}:latest
 
       - name: Clean old versions
         env:
           GH_TOKEN: ${{ github.token }}
         run: >
-          gh api /user/packages/container/fedora/versions
+          gh api /user/packages/container/${{ matrix.image }}/versions
           | jq '.[]|select(.metadata.container.tags|contains(["latest"])|not)|.id'
-          | xargs -I{} gh api -X DELETE /user/packages/container/fedora/versions/{}
+          | xargs -I{} gh api -X DELETE /user/packages/container/${{ matrix.image }}/versions/{}
