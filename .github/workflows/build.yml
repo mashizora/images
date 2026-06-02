@@ -9,7 +9,7 @@ on:
 
 jobs:
   alpine:
-    name: Build alpine
+    name: Build Alpine
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -35,7 +35,7 @@ jobs:
           | xargs -I{} gh api -X DELETE /user/packages/container/alpine/versions/{}
 
   fedora:
-    name: Build fedora
+    name: Build Fedora
     runs-on: ubuntu-latest
     permissions:
       contents: read
