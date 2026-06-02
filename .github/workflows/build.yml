@@ -8,16 +8,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build ${{ matrix.image }}
+  alpine:
+    name: Build alpine
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        image: [alpine, fedora]
-      fail-fast: false
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -27,13 +23,39 @@ jobs:
 
       - name: Build and push image
         run: |
-          buildah build --squash --omit-history --tag ghcr.io/mashizora/${{ matrix.image }}:latest ${{ matrix.image }}
-          buildah push ghcr.io/mashizora/${{ matrix.image }}:latest
+          buildah build --squash --omit-history --tag ghcr.io/mashizora/alpine:latest alpine
+          buildah push ghcr.io/mashizora/alpine:latest
 
       - name: Clean old versions
         env:
           GH_TOKEN: ${{ github.token }}
         run: >
-          gh api /user/packages/container/${{ matrix.image }}/versions
+          gh api /user/packages/container/alpine/versions
           | jq '.[]|select(.metadata.container.tags|contains(["latest"])|not)|.id'
-          | xargs -I{} gh api -X DELETE /user/packages/container/${{ matrix.image }}/versions/{}
+          | xargs -I{} gh api -X DELETE /user/packages/container/alpine/versions/{}
+
+  fedora:
+    name: Build fedora
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Login to ghcr.io
+        run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ github.token }}"
+
+      - name: Build and push image
+        run: |
+          buildah build --squash --omit-history --tag ghcr.io/mashizora/fedora:latest fedora
+          buildah push ghcr.io/mashizora/fedora:latest
+
+      - name: Clean old versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh api /user/packages/container/fedora/versions
+          | jq '.[]|select(.metadata.container.tags|contains(["latest"])|not)|.id'
+          | xargs -I{} gh api -X DELETE /user/packages/container/fedora/versions/{}
