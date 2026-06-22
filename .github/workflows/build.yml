@@ -16,7 +16,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Login to ghcr.io
         run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ github.token }}"
@@ -42,7 +42,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Login to ghcr.io
         run: buildah login ghcr.io -u "${{ github.actor }}" -p "${{ github.token }}"
